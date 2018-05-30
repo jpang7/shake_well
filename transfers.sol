@@ -10,15 +10,16 @@ contract Transfers is ItemOwnership, ERC721 {
 
     struct Offer {
         bool isForSale;
-        uint itemId;
+        uint256 itemId;
         address seller;
-        uint value; //In Ether
+        uint256 value; //In Ether
         address onlySellTo; //Sell only to a specific person if specified
     }
 
     mapping (uint => address) itemApprovals;
     mapping (uint => Offer) public itemsOfferedForSale;
     mapping (address => uint) public pendingWithdrawals;
+    
 
     function withdraw() external onlyOwner{
         uint256 amount = pendingWithdrawals[msg.sender];
@@ -36,7 +37,7 @@ contract Transfers is ItemOwnership, ERC721 {
         itemsOfferedForSale[_itemId] = Offer(true, _itemId, msg.sender, _salePriceInWei, _to);
     }
 
-    function itemToPrice(uint256 _itemId) returns {
+    function itemToPrice(uint256 _itemId) returns (uint256) {
         return itemsOfferedForSale[_itemId].value;
     }
 
