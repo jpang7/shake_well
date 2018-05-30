@@ -27,7 +27,7 @@ Basic test:
 
 **TODO: Deploy smart contract after more review. Add author only methods if needed.**\
 
-**TODO: Connect frontend to smart contract**
+**TODO: Connect frontend to smart contract** (Paste ABI and contract address, run tests)
 
 **TODO: Webpage styles and sprite artwork**
 
