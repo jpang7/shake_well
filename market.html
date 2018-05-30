@@ -2,11 +2,131 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>"Shake Well" front-end</title>
+        <title>MARKETPLACE</title>
         <script language="javascript" type="text/javascript" src="web3.min.js"></script>
         <script language="javascript" type="text/javascript" src="shake_well_abi.js"></script>
     </head>
-    <script src="game.js"></script>
+    <script>
+            var shake_well;
+            var userAccount;
+
+            function startApp() {
+                var shake_well_address = "CONTRACT_ADDRESS";
+                shake_well = new web3js.eth.Contract(shake_well_ABI, shake_well_address);
+
+                var accountInterval = setInterval(function() {
+                    if (web3.eth.accounts[0] !== userAccount) {
+                        userAccount = web3.eth.accounts[0];
+
+                        getItemsByOwner(userAccount)
+                        .then(displayItems);
+                    }
+                }, 100);
+
+            shake_well.events.Transfer({filter: {_to: userAccount} })
+            .on("data", function(event) {
+                let data = event.returnValues;
+                getItemsByOwner(userAccount).then(displayItems);
+            }).on("error", console.error);
+            }
+
+            function displayItems(ids) {
+                $("#items").empty();
+                for (id of ids) {
+
+                    getItemDetails(id)
+                    .then(function(item) {
+
+                        $("#items").append(`<div class="item">
+                           <ul>
+                               <li>Name: ${item.name}</li>
+                               <li>Mix: ${item.mix}</li>
+                               <li>Strength: ${item.strength}</li>
+                           </ul>
+                        </div>`);
+                    });
+                }
+            }
+            
+            function repair(itemId) {
+                $("#txStatus").text("Repairing your item...");
+                return shake_well.methods.repair(itemId)
+                .send({ from: userAccount, value: web3.utils.toWei("0.001") })
+                .on("receipt", function(receipt) {
+                    $("#txStatus").text("Here we go! A brand new item.");
+                })
+                .on("error", function(error) {
+                    $("#txStatus").text(error);
+                });
+            }
+
+            function buy(itemId) {
+                var price = itemToPrice(itemId);
+                $("#txStatus").text("Buying your item...");
+                return shake_well.methods.buyItem(itemId)
+                .send({ from: userAccount, value: web3.utils.toWei(price) })
+                .on("receipt", function(receipt){
+                    $("#txStatus").text("Your purchase was successful!");
+                })
+                .on("error", function(error) {
+                    $("#txStatus").text(error);
+                });
+            }
+
+            function offerItem(id, salePriceInWei) {
+                $("#txStatus").text("Listing your item...");
+                return shake_well.methods.offerItem(id, salePriceInWei)
+                .send({ from: userAccount })
+                .on("receipt", function(receipt){
+                    $("#txStatus").text("Your item was listed!");
+                })
+                .on("error", function(error) {
+                    $("#txStatus").text(error);
+                });
+            }
+
+            function offerItemToAddress(id, salePriceInWei, to) {
+                $("#txStatus").text("Listing your item to specific person...");
+                return shake_well.methods.offerItemToAddress(id, salePriceInWei, to)
+                .send({ from: userAccount })
+                .on("receipt", function(receipt){
+                    $("#txStatus").text("Your item was listed to your associate!");
+                })
+                .on("error", function(error) {
+                    $("#txStatus").text(error);
+                });
+            }
+
+
+            function itemToPrice(id) {
+                return shake_well.methods.itemToPrice(id)
+            }
+
+            function getItemDetails(id) {
+                return shake_well.methods.items(id).call()
+            }
+
+            function itemToOwner(id) {
+                return shake_well.methods.itemToOwner(id).call()
+            }
+
+            function getItemsByOwner(owner) {
+                return shake_well.methods.getItemsByOwner(owner).call()
+            }
+
+            window.addEventListener('load', function() {
+
+                if (typeof web3 !== 'undefined') {
+                    
+                    web3js = new Web3(web3.currentProvider);
+                } else {
+                    console.log('No web3? Consider trying MetaMask! Or are you not on the mainnet?')
+                }
+
+                startApp()
+            })
+
+        </script>
     <body background="IMG_8964.JPG">
-        
+
     </body>

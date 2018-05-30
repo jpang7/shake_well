@@ -26,8 +26,8 @@ contract Earn is Ownable {
     }
 
     function createItem(string _name, uint _mix, uint _strength) external {
-        uint id = items.push(Item(_name, _mix, _strength));
+        uint id = items.push(Item(_name, _mix, _strength))-1;
         itemToOwner[id] = msg.sender;
-        ownerItemCount[msg.sender].add(1);
+        ownerItemCount[msg.sender]++;
     }
 }
