@@ -4,7 +4,7 @@ import "./ownership.sol";
 import "./erc721.sol";
 import "./safemath.sol";
 
-contract Transfers is Ownership, ERC721 {
+contract Transfers is ItemOwnership, ERC721 {
 
     using SafeMath for uint256;
 
@@ -20,7 +20,7 @@ contract Transfers is Ownership, ERC721 {
     mapping (uint => Offer) public itemsOfferedForSale;
     mapping (address => uint) public pendingWithdrawals;
 
-    function withdraw() {
+    function withdraw() external onlyOwner{
         uint256 amount = pendingWithdrawals[msg.sender];
         pendingWithdrawals[msg.sender] = 0;
         msg.sender.transfer(amount);
@@ -28,12 +28,16 @@ contract Transfers is Ownership, ERC721 {
 
     function offerItem(uint256 _itemId, uint _salePriceInWei) {
         require(itemToOwner[_itemId] == msg.sender);
-        itemsOfferedForSale[_itemId] = Offer(true, _itemId, msg.sender, salePriceInWei, 0x0);
+        itemsOfferedForSale[_itemId] = Offer(true, _itemId, msg.sender, _salePriceInWei, 0x0);
     }
 
     function offerItemToAddress(uint256 _itemId, uint _salePriceInWei, address _to) {
         require(itemToOwner[_itemId] == msg.sender);
-        itemsOfferedForSale[_itemId] == Offer(true, _itemId, msg.sender, salePriceInWei, _to);
+        itemsOfferedForSale[_itemId] = Offer(true, _itemId, msg.sender, _salePriceInWei, _to);
+    }
+
+    function itemToOffer(uint256 _itemId) {
+        return itemsOfferedForSale[_itemId];
     }
 
     function buyItem(uint256 _itemId) {
