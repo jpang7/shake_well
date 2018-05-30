@@ -36,8 +36,8 @@ contract Transfers is ItemOwnership, ERC721 {
         itemsOfferedForSale[_itemId] = Offer(true, _itemId, msg.sender, _salePriceInWei, _to);
     }
 
-    function itemToOffer(uint256 _itemId) {
-        return itemsOfferedForSale[_itemId];
+    function itemToPrice(uint256 _itemId) returns {
+        return itemsOfferedForSale[_itemId].value;
     }
 
     function buyItem(uint256 _itemId) {
