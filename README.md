@@ -16,9 +16,10 @@ What is the game supposed to look like?
 
 **This game's primary appeal is in its GAMEPLAY, while the opportunity to make money on the marketplace is likely a secondary source of fun**
 
-**Most of the smart contract work is done. Tests on Ropsten + RemixIDE (detailed below) were successful. The rest of the work is non-Solidity (UI, art, game.html, game.js)**
+**Most of the smart contract work is done. BASIC tests on Ropsten + RemixIDE (detailed below) were successful. The rest of the work is non-Solidity (UI, art, game.html, game.js)**
 
-
+Basic test: 
+![alt text](https://github.com/jpang7/shake_well/ropstentest.JPG)
 
 **TODO: Deploy smart contract after more review. Add author only methods if needed.**\
 
