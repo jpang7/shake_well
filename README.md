@@ -16,10 +16,14 @@ What is the game supposed to look like?
 
 **This game's primary appeal is in its GAMEPLAY, while the opportunity to make money on the marketplace is likely a secondary source of fun**
 
-**Most of the smart contract work is done. BASIC tests on Ropsten + RemixIDE (detailed below) were successful. The rest of the work is non-Solidity (UI, art, game.html, game.js)**
+**Much of the smart contract work is done. VERY VERY BASIC tests on Ropsten + RemixIDE (detailed below) were successful. The rest of the work is non-Solidity (UI, art, game.html, game.js)**
+
+No compile-time errors on methods, TODO NEED TO HEED REMIX WARNINGS.
+
+after creating two items: balanceOf returns 2, getItemsByOwner returns 0,1 in a uint256 array, if I list item 0 for 1 Wei, itemToPrice returns 1 given input 0. 
 
 Basic test: 
-![alt text](https://github.com/jpang7/shake_well/ropstentest.JPG)
+![alt text](https://github.com/jpang7/shake_well/blob/master/ropstentest.JPG)
 
 **TODO: Deploy smart contract after more review. Add author only methods if needed.**\
 
