@@ -7,7 +7,7 @@ What does an item look like? They are ERC721 tokens (struct Item) with a:
 - id (basically the index number in Item array items.)
 
 What is the game supposed to look like?
-- Right now the "game" is an image you can control with the keyboard TODO: smoother keyboard listening
+- Right now the "game" is an image you can control with the keyboard, birds-eye POV. TODO: smoother keyboard listening
 - Envisioned game description: platform style scroller with gravity. Earn items by completing quests and defeating computer enemies. Most valuable items are the rarest ones, likely the ones that will give your character special abilities (e.g. jumping higher, flying, having a pet, or moving to different game states. More advanced states will be more colorful, more "aesthetically interesting" experience) 
 - Your items are EVERYTHING-- your items unlock new levels in the game, give you more power, and more aesthetic appeal.
 - Implementation strategy: game.js will hold game logic AND UNIQUELY CALL smart contract method createItem. Again, there is no other way to create an item. Tokens are "minted" through gameplay. You can skip your in-game responsibilities through clever trading in the market or simply buying new items with your Ether. Cannot keep using primitive JavaScript methods-- will use a framework like Phaser
