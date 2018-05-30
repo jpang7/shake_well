@@ -25,8 +25,7 @@ contract Earn is Ownable {
         _;
     }
 
-    //TODO DECIDE HOW CREATE ITEM IS GOING TO GO
-    function createItem(string _name, uint _mix, uint _strength) internal {
+    function createItem(string _name, uint _mix, uint _strength) external {
         uint id = items.push(Item(_name, _mix, _strength));
         itemToOwner[id] = msg.sender;
         ownerItemCount[msg.sender].add(1);
