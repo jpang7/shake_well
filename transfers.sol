@@ -84,6 +84,8 @@ contract Transfers is ItemOwnership, ERC721 {
     }
     
     function takeOwnership(uint256 _tokenId) public {
-        
+        require(itemApprovals[_tokenId] == msg.sender);
+        address owner = ownerOf(_tokenId);
+        _transfer(owner, msg.sender, _tokenId);
     }
 }
